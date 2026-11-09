@@ -3,10 +3,10 @@ package main
 import (
 	"context"
 	"fmt"
+	"github.com/CarlosAmaral/rag-app/app"
+	"github.com/CarlosAmaral/rag-app/config"
 	"os"
 	"os/signal"
-	"rag-app/app"
-	"rag-app/config"
 	"syscall"
 )
 

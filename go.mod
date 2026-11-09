@@ -1,4 +1,4 @@
-module rag-app
+module github.com/CarlosAmaral/rag-app
 
 go 1.27.1
 

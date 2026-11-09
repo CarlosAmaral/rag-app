@@ -3,12 +3,12 @@ package web
 import (
 	"bytes"
 	"encoding/json"
+	"github.com/CarlosAmaral/rag-app/ingest"
 	"io"
 	"log"
 	"mime"
 	"mime/multipart"
 	"net/http"
-	"rag-app/ingest"
 	"regexp"
 )
 

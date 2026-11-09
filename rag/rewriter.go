@@ -3,7 +3,7 @@ package rag
 import (
 	"context"
 	"fmt"
-	"rag-app/llm"
+	"github.com/CarlosAmaral/rag-app/llm"
 	"strings"
 )
 

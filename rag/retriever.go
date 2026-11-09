@@ -3,8 +3,8 @@ package rag
 import (
 	"context"
 	"fmt"
-	"rag-app/llm"
-	"rag-app/vector"
+	"github.com/CarlosAmaral/rag-app/llm"
+	"github.com/CarlosAmaral/rag-app/vector"
 )
 
 const defaultTopK = 5

@@ -2,7 +2,7 @@ package rag
 
 import (
 	"fmt"
-	"rag-app/vector"
+	"github.com/CarlosAmaral/rag-app/vector"
 	"strings"
 )
 

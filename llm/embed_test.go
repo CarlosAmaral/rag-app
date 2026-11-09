@@ -2,9 +2,9 @@ package llm
 
 import (
 	"context"
+	"github.com/CarlosAmaral/rag-app/config"
 	"net/http"
 	"net/http/httptest"
-	"rag-app/config"
 	"reflect"
 	"testing"
 )

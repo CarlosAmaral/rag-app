@@ -4,20 +4,20 @@ A Go application for retrieval-augmented chat with a terminal interface and an o
 
 ## Project packages
 
-The module is `rag-app`. It contains ten Go packages, including the executable package.
+The module is `github.com/CarlosAmaral/rag-app`. It contains ten Go packages, including the executable package.
 
 | Import path | Directory | Responsibility |
 | --- | --- | --- |
-| `rag-app/cmd/rag` (`main`) | [cmd/rag](cmd/rag/main.go) | Executable entry point and signal handling. |
-| `rag-app/app` | [app](app/app.go) | Application lifecycle and dependency wiring. |
-| `rag-app/config` | [config](config/config.go) | Environment configuration and defaults. |
-| `rag-app/chat` | [chat](chat/repl.go) | Interactive terminal chat. |
-| `rag-app/ingest` | [ingest](ingest) | Document watching, chunking, and indexing. |
-| `rag-app/llm` | [llm](llm) | Chat, embedding, and vision API clients. |
-| `rag-app/rag` | [rag](rag) | Query rewriting, retrieval, and context formatting. |
-| `rag-app/vector` | [vector](vector/store.go) | Shared vector storage interface and data types. |
-| `rag-app/vector/pgvector` | [vector/pgvector](vector/pgvector/pgvector.go) | PostgreSQL implementation of vector storage. |
-| `rag-app/web` | [web](web) | Browser chat, streaming API, uploads, and request filtering. |
+| `github.com/CarlosAmaral/rag-app/cmd/rag` (`main`) | [cmd/rag](cmd/rag/main.go) | Executable entry point and signal handling. |
+| `github.com/CarlosAmaral/rag-app/app` | [app](app/app.go) | Application lifecycle and dependency wiring. |
+| `github.com/CarlosAmaral/rag-app/config` | [config](config/config.go) | Environment configuration and defaults. |
+| `github.com/CarlosAmaral/rag-app/chat` | [chat](chat/repl.go) | Interactive terminal chat. |
+| `github.com/CarlosAmaral/rag-app/ingest` | [ingest](ingest) | Document watching, chunking, and indexing. |
+| `github.com/CarlosAmaral/rag-app/llm` | [llm](llm) | Chat, embedding, and vision API clients. |
+| `github.com/CarlosAmaral/rag-app/rag` | [rag](rag) | Query rewriting, retrieval, and context formatting. |
+| `github.com/CarlosAmaral/rag-app/vector` | [vector](vector/store.go) | Shared vector storage interface and data types. |
+| `github.com/CarlosAmaral/rag-app/vector/pgvector` | [vector/pgvector](vector/pgvector/pgvector.go) | PostgreSQL implementation of vector storage. |
+| `github.com/CarlosAmaral/rag-app/web` | [web](web) | Browser chat, streaming API, uploads, and request filtering. |
 
 ### `cmd/rag`
 

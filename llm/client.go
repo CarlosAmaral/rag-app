@@ -2,7 +2,7 @@ package llm
 
 import (
 	"context"
-	"rag-app/config"
+	"github.com/CarlosAmaral/rag-app/config"
 	"strings"
 
 	"github.com/openai/openai-go/v3"

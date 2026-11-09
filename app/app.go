@@ -2,16 +2,16 @@ package app
 
 import (
 	"context"
+	"github.com/CarlosAmaral/rag-app/chat"
+	"github.com/CarlosAmaral/rag-app/config"
+	"github.com/CarlosAmaral/rag-app/ingest"
+	"github.com/CarlosAmaral/rag-app/llm"
+	"github.com/CarlosAmaral/rag-app/rag"
+	"github.com/CarlosAmaral/rag-app/vector"
+	"github.com/CarlosAmaral/rag-app/vector/pgvector"
+	"github.com/CarlosAmaral/rag-app/web"
 	"log"
 	"os"
-	"rag-app/chat"
-	"rag-app/config"
-	"rag-app/ingest"
-	"rag-app/llm"
-	"rag-app/rag"
-	"rag-app/vector"
-	"rag-app/vector/pgvector"
-	"rag-app/web"
 	"sync"
 )
 
