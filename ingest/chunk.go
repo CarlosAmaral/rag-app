@@ -4,44 +4,40 @@ import (
 	"strings"
 )
 
-func chunk(text string, s, overlap int) []string {
+func chunk(text string, size, overlap int) []string {
 	text = strings.TrimSpace(text)
-
 	if text == "" {
 		return nil
 	}
 
-	if len(text) <= s {
+	if len(text) <= size {
 		return []string{text}
 	}
 
+	// Defensive bounds: an overlap >= size would loop forever.
 	if overlap < 0 {
 		overlap = 0
 	}
 
-	if overlap >= s {
-		overlap = s / 2
+	if overlap >= size {
+		overlap = size / 2
 	}
 
-	threshold := s * 7 / 10
+	threshold := size * 7 / 10
 
 	var chunks []string
-
 	n := len(text)
-
 	start := 0
-
 	for start < n {
-		end := start + s
+		end := start + size
 		if end >= n {
-			if part := strings.TrimSpace(text[s:]); part != "" {
+			if part := strings.TrimSpace(text[start:]); part != "" {
 				chunks = append(chunks, part)
 			}
 			break
 		}
 
 		window := text[start:end]
-
 		switch {
 		case strings.LastIndex(window, "\n\n") >= threshold:
 			end = start + strings.LastIndex(window, "\n\n") + 2
@@ -54,8 +50,8 @@ func chunk(text string, s, overlap int) []string {
 		if part := strings.TrimSpace(text[start:end]); part != "" {
 			chunks = append(chunks, part)
 		}
-
 		start = end - overlap
 	}
+
 	return chunks
 }

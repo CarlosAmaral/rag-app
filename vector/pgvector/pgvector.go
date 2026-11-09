@@ -113,31 +113,27 @@ func (s *Store) Upsert(ctx context.Context, docs []vector.Document) error {
 	}
 
 	tx, err := s.pool.Begin(ctx)
-
 	if err != nil {
 		return err
 	}
-
 	defer tx.Rollback(ctx)
 
 	const stmt = `
-	 INSERT INTO documents(id, content, metadata, embedding)
-	 VALUES ($1, $2, $3, $4)
-	 ON CONFLICT (id) DO UPDATE SET
-	 	content = EXCLUDED.content,
-	 	metadata = EXCLUDED.metadata,
-	 	embedding = EXCLUDED.embedding,
-	 `
+		INSERT INTO documents (id, content, metadata, embedding)
+		VALUES ($1, $2, $3, $4)
+		ON CONFLICT (id) DO UPDATE SET
+			content = EXCLUDED.content,
+			metadata = EXCLUDED.metadata,
+			embedding = EXCLUDED.embedding
+	`
 
 	for _, d := range docs {
-		meta, err := marshallMetadata(d.Metadata)
-
+		meta, err := marshalMetadata(d.Metadata)
 		if err != nil {
-			return fmt.Errorf("metadata for %s:%w", d.ID, err)
+			return fmt.Errorf("metadata for %s: %w", d.ID, err)
 		}
-
 		if _, err := tx.Exec(ctx, stmt, d.ID, d.Content, meta, pgvector.NewVector(d.Embedding)); err != nil {
-			return fmt.Errorf("upsert %s:%w", d.ID, err)
+			return fmt.Errorf("upsert: %s: %w", d.ID, err)
 		}
 	}
 
@@ -150,9 +146,9 @@ func (s *Store) Query(ctx context.Context, embedding []float32, topK int) ([]vec
 	}
 
 	const stmt = `
-	select.id, content, metadata, embedding, <=> $1 as distance
+	select id, content, metadata, embedding <=> $1 as distance
 	from documents
-	order by embeddings
+	order by embedding <=> $1
 	limit $2
 	`
 
@@ -190,7 +186,7 @@ func (s *Store) Query(ctx context.Context, embedding []float32, topK int) ([]vec
 	return results, rows.Err()
 }
 
-func marshallMetadata(m map[string]string) ([]byte, error) {
+func marshalMetadata(m map[string]string) ([]byte, error) {
 	if len(m) == 0 {
 		return []byte("{}"), nil
 	}
@@ -223,7 +219,7 @@ func (s *Store) DeleteBySource(ctx context.Context, source string) error {
 		return nil
 	}
 
-	_, err := s.pool.Exec(ctx, `delete from documents where metada ->>'source' = $1`)
+	_, err := s.pool.Exec(ctx, `delete from documents where metadata ->>'source' = $1`, source)
 
 	return err
 

@@ -8,8 +8,10 @@ import (
 	"rag-app/config"
 	"rag-app/ingest"
 	"rag-app/llm"
+	"rag-app/rag"
 	"rag-app/vector"
 	"rag-app/vector/pgvector"
+	"rag-app/web"
 	"sync"
 )
 
@@ -52,7 +54,40 @@ func Run(parent context.Context, cfg config.Config) error {
 		logger.Printf("vector store ready")
 	}
 
-	replErr := chat.RunREPL(ctx, client, chat.Options{
+	var retriever *rag.Retriever
+
+	if store != nil {
+		retriever = rag.New(embedder, store, rag.Options{
+			TopK:     5,
+			Rewriter: rag.NewRewriter(client),
+		})
+	}
+
+	if cfg.HTTPAddr != "" {
+		srv, err := web.New(client, embedder, retriever, web.Options{
+			Addr:             cfg.HTTPAddr,
+			SystemPromptFile: cfg.SystemPromptFile,
+			Store:            store,
+			ProcessedDir:     cfg.ProcessedDir,
+			ImagesDir:        cfg.ImagesDir,
+		})
+
+		if err != nil {
+			logger.Printf("web server disabled %v", err)
+		} else {
+
+			wg.Go(func() {
+				if err := srv.Run(ctx, cfg.HTTPAddr); err != nil && ctx.Err() == nil {
+					logger.Printf("webserver stopped %v", err)
+				}
+			})
+
+			logger.Printf("web chat at http://localhost%s/chat", cfg.HTTPAddr)
+		}
+
+	}
+
+	replErr := chat.RunREPL(ctx, client, retriever, chat.Options{
 		SystemPromptFile: cfg.SystemPromptFile,
 	})
 
